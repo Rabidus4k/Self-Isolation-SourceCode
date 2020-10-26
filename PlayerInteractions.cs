@@ -17,13 +17,14 @@ public class PlayerInteractions : MonoBehaviour
     public bool CanInfect = true;
     private AudioSource _audioSource;
     private Coroutine _lastCoroutine = null;
-
+    private DragAndDrop _dnd;
     public PlayerType ThisPlayerType = PlayerType.Normal;
 
     private void Awake()
     {
         PoisonBar.SetActive(false);
 
+        _dnd = GetComponent<DragAndDrop>();
         _audioSource = GetComponent<AudioSource>();
         _playerMovement = GetComponent<PlayerMovement>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -143,7 +144,7 @@ public class PlayerInteractions : MonoBehaviour
                 }
             }
 
-            if (Infected && CanInfect)
+            if (Infected && CanInfect && !_dnd.IsDragging)
             {
                 var infectChance = Random.Range(0f, 1f);
                 var collPI = collision.gameObject.GetComponent<PlayerInteractions>();

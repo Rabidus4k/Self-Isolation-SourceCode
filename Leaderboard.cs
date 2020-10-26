@@ -18,6 +18,8 @@ public class Leaderboard : MonoBehaviour
         }
     }
 
+
+
     public List<Highscore> HighScoreList;
     public GameObject HighScoreListItemPrefab;
     public GameObject ListContainer;

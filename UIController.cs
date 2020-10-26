@@ -9,9 +9,10 @@ public class UIController : MonoBehaviour
     public GameObject LeaderBoardMenu;
     public GameObject MainMenu;
     public GameObject GameChooseMenu;
-    public TMP_InputField NameInputField;
     public GameObject SandBoxMenu;
     public GameObject UpdateMessageMenu;
+    public GameObject MapSelectionMenu;
+    public TMP_InputField NameInputField;
     public void Start()
     {
         NameInputField.text = PlayerPrefs.GetString("SelfIsolationPlayerName");
@@ -41,7 +42,8 @@ public class UIController : MonoBehaviour
     public void Back()
     {
         MainMenu.SetActive(true);
-        GameChooseMenu.SetActive(false);    
+        GameChooseMenu.SetActive(false);
+        MapSelectionMenu.SetActive(false);
     }
     public void QuitTheGame()
     {
@@ -55,9 +57,10 @@ public class UIController : MonoBehaviour
 
     public void StartSandbox()
     {
-        SandBoxMenu.SetActive(true);
+        SandBoxMenu.SetActive(false);
         MainMenu.SetActive(false);
         GameChooseMenu.SetActive(false);
+        MapSelectionMenu.SetActive(true);
     }
     
     public void OpenDownloadPage()

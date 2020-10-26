@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TimerController : MonoBehaviour
 {
-    
+    public static long Offset = long.MaxValue - 1000;
     public int Seconds = 0;
     public TextMeshProUGUI TimeText;
 
