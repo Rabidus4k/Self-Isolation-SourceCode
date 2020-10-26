@@ -89,14 +89,13 @@ public class PlayerCounterController : MonoBehaviour
     }
     private void CheckForPlayersCount()
     {
-        
         if (PlayersNormalCount == 0 && !InLobby)
         {
             if (InMatchMaking)
             {
                 var time = FindObjectOfType<TimerController>().GetLastTime();
                 FindObjectOfType<Leaderboard>().AddNewHighScore(FindObjectOfType<PlayerInfo>().PlayerName, time);
-                PlayerPrefs.SetInt("RecordTime", time);
+                PlayerPrefs.SetInt("RecordTime", (int)(time - TimerController.Offset));
                 Debug.Log(time);
             }
             Instantiate(ObjectsContainer.instance.GameOverMenu);

@@ -24,6 +24,4 @@ public class ObjectsContainer : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
     }
-
-
 }

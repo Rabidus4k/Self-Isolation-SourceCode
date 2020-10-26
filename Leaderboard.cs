@@ -9,21 +9,16 @@ public class Leaderboard : MonoBehaviour
     public struct Highscore
     {
         public string username;
-        public int score;
+        public long score;
 
-        public Highscore(string _username, int _score)
+        public Highscore(string _username, long _score)
         {
             username = _username;
             score = _score;
         }
     }
 
-    const string _privateCode = "секретик";
-    const string _publicCode = "секретик";
-    const string _webURL = "секретик";
-
-
-    public Highscore[] HighScoreList;
+    public List<Highscore> HighScoreList;
     public GameObject HighScoreListItemPrefab;
     public GameObject ListContainer;
     public TextMeshProUGUI ErrorText;
@@ -37,7 +32,7 @@ public class Leaderboard : MonoBehaviour
             GetHighScoreList();
         }
     }
-    public void AddNewHighScore(string name, int score)
+    public void AddNewHighScore(string name, long score)
     {
         StartCoroutine(UploadNewHighScore(name, score));
     }
@@ -47,7 +42,7 @@ public class Leaderboard : MonoBehaviour
         StartCoroutine(GetHighScores());
     }
 
-    IEnumerator UploadNewHighScore(string username, int score)
+    IEnumerator UploadNewHighScore(string username, long score)
     {
         WWW www = new WWW(_webURL + _privateCode + "/add/" + WWW.EscapeURL(username) + "/" + score);
         yield return www;
@@ -81,19 +76,21 @@ public class Leaderboard : MonoBehaviour
     void FormatHighScores(string textStream)
     {
         string[] entries = textStream.Split(new char[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
-        HighScoreList = new Highscore[entries.Length];
+        HighScoreList = new List<Highscore>();
         for (int i = 0; i < entries.Length; i++)
         {
             string[] entryInfo = entries[i].Split(new char[] { '|' });
             string tempUserName = entryInfo[0];
-            int tempScore = int.Parse(entryInfo[1]);
-            HighScoreList[i] = new Highscore(tempUserName, tempScore);
+            long tempScore = long.Parse(entryInfo[1]);
+
+            if (tempScore - TimerController.Offset > 0)
+                HighScoreList.Add(new Highscore(tempUserName, tempScore - TimerController.Offset));
         }
     }
 
     private void AddInfoToTheList()
     {
-        for (int i = 0; i < HighScoreList.Length; i++)
+        for (int i = 0; i < HighScoreList.Count; i++)
         {
             var tempItem = Instantiate(HighScoreListItemPrefab, ListContainer.transform);
             tempItem.GetComponent<LeaderboardItem>().SetInfoText(i, HighScoreList[i].username, HighScoreList[i].score);

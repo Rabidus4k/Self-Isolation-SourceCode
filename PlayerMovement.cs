@@ -10,11 +10,12 @@ public class PlayerMovement : MonoBehaviour
     private Grid _grid;
     private Animator _animator;
     private Vector2 _moveDirection;
-
+    private DragAndDrop _dnd;
     public bool CanWalk = true;
 
     private void Start()
     {
+        _dnd = GetComponent<DragAndDrop>();
         _grid = FindObjectOfType<Grid>();
         _tileMap = GameObject.FindGameObjectWithTag("Wall").GetComponent<Tilemap>();
         _animator = GetComponent<Animator>();
@@ -30,11 +31,14 @@ public class PlayerMovement : MonoBehaviour
             transform.Translate(_moveDirection * Time.deltaTime * PlayerSpeed);
             _animator.SetBool("Walk", true);
 
-            Vector3Int posInt = _grid.WorldToCell(transform.position);
-            posInt = new Vector3Int(posInt.x, posInt.y, posInt.z);
-            if (null != _tileMap.GetTile(posInt))
+            if (!_dnd.IsDragging)
             {
-                gameObject.GetComponent<PlayerInteractions>().Die();
+                Vector3Int posInt = _grid.WorldToCell(transform.position);
+                posInt = new Vector3Int(posInt.x, posInt.y, posInt.z);
+                if (null != _tileMap.GetTile(posInt))
+                {
+                    gameObject.GetComponent<PlayerInteractions>().Die();
+                }
             }
         }
         else

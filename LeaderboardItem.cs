@@ -6,7 +6,7 @@ using UnityEngine;
 public class LeaderboardItem : MonoBehaviour
 {
     public TextMeshProUGUI InfoText;
-    public void SetInfoText(int index, string name, int score)
+    public void SetInfoText(int index, string name, long score)
     {
         InfoText.SetText($"#{index + 1}\t{name.ToString().ToUpper()} ({score})");
 

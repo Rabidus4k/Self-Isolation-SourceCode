@@ -9,6 +9,7 @@ public class AbilitiesController : MonoBehaviour
     public Reload Reloader;
     private bool _canUse = true;
     private PlayerCounterController _playerCounterController;
+    public bool InLobby = false;
     private void Start()
     {
         _playerCounterController = FindObjectOfType<PlayerCounterController>();
@@ -18,13 +19,18 @@ public class AbilitiesController : MonoBehaviour
     {
         if (_canUse)
         {
-            _canUse = false;
+            
             var players = GameObject.FindGameObjectsWithTag("Player");
             foreach (var player in players)
             {
                 player.GetComponent<PlayerInteractions>().Imunitet();
             }
-            Reloader.StartReload(() => { _canUse = true; }, 10f);
+            if (!InLobby)
+            {
+                _canUse = false;
+                Reloader.StartReload(() => { _canUse = true; }, 10f);
+            }
+                
         }
     }
 
@@ -32,7 +38,7 @@ public class AbilitiesController : MonoBehaviour
     {
         if (_canUse)
         {
-            _canUse = false;
+            
             var players = GameObject.FindGameObjectsWithTag("Player");
             for (int i = 0; i < players.Length / 2; i++)
             {
@@ -40,7 +46,12 @@ public class AbilitiesController : MonoBehaviour
                 _playerCounterController.DecreasePlayers(thisPlayerType);
                 Destroy(players[i]);
             }
-            Reloader.StartReload(() => { _canUse = true; }, 5f);
+            if (!InLobby)
+            {
+                _canUse = false;
+                Reloader.StartReload(() => { _canUse = true; }, 5f);
+            }
+                
         }
     }
 
@@ -48,14 +59,19 @@ public class AbilitiesController : MonoBehaviour
     {
         if (_canUse)
         {
-            _canUse = false;
+            
             Instantiate(PlanePrefab, PlaneSpawnPoint.position, Quaternion.identity);
             var players = GameObject.FindGameObjectsWithTag("Player");
             foreach (var player in players)
             {
                 player.GetComponent<PlayerInteractions>().Heal();
             }
-            Reloader.StartReload(() => { _canUse = true; }, 50f);
+            if (!InLobby)
+            {
+                _canUse = false;
+                Reloader.StartReload(() => { _canUse = true; }, 50f);
+            }
+                
         }
     }
 }

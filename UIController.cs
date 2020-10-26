@@ -11,9 +11,10 @@ public class UIController : MonoBehaviour
     public GameObject GameChooseMenu;
     public TMP_InputField NameInputField;
     public GameObject SandBoxMenu;
-
+    public GameObject UpdateMessageMenu;
     public void Start()
     {
+        NameInputField.text = PlayerPrefs.GetString("SelfIsolationPlayerName");
         Time.timeScale = 1;
     }
     public void ShowLeaderBoard()
@@ -21,8 +22,14 @@ public class UIController : MonoBehaviour
         Instantiate(LeaderBoardMenu);
     }
 
+    public void HideUpdateMessageMenu()
+    {
+        UpdateMessageMenu.SetActive(false);
+    }
+
     public void GoMatchmaking()
     {
+        PlayerPrefs.SetString("SelfIsolationPlayerName", NameInputField.text);
         ObjectsContainer.instance.PlayerName = NameInputField.text;
         SceneManager.LoadScene(1);
     }
@@ -51,5 +58,10 @@ public class UIController : MonoBehaviour
         SandBoxMenu.SetActive(true);
         MainMenu.SetActive(false);
         GameChooseMenu.SetActive(false);
+    }
+    
+    public void OpenDownloadPage()
+    {
+        Application.OpenURL("https://www.yadi.sk/d/AG5ZSneGDItiNA");
     }
 }

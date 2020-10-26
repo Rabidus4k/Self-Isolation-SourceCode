@@ -7,7 +7,7 @@ public class DragAndDrop : MonoBehaviour
 {
     private PlayerMovement _playerMovement;
 
-    private bool _isDragging = false;
+    public bool IsDragging = false;
     private PlayerCounterController _counterController;
     private PlayerInteractions _playerInteractions;
     
@@ -21,7 +21,7 @@ public class DragAndDrop : MonoBehaviour
     }
      private void Update()
     {
-        if (_isDragging)
+        if (IsDragging)
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
             transform.Translate(mousePosition);
@@ -31,14 +31,14 @@ public class DragAndDrop : MonoBehaviour
     #region MOUSE_EVENTS
     private void OnMouseUp()
     {
-        _isDragging = false;
+        IsDragging = false;
         _playerInteractions.CanMakeSons = true;
         _playerMovement.CanWalk = true;
     }
 
     private void OnMouseDown()
     {
-        _isDragging = true;
+        IsDragging = true;
         _playerInteractions.CanMakeSons = false;
         _playerMovement.CanWalk = false;
     }
